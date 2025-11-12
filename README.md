@@ -1,2 +1,3 @@
 # COMP.560.Final.Project
-# test
+
+- used shadcn via npm, next.js 15. 
