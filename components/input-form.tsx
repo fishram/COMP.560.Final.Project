@@ -17,9 +17,43 @@ export function InputForm() {
   const [isPositive, setIsPositive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleSubmit = () => {
+  // variables to feed into openAI API route
+  const [menuText, setMenuText] = useState("");
+  const [restaurantName, setRestaurantName] = useState("");
+  const [cuisine, setCuisine] = useState("");
+  const [reviewCount, setReviewCount] = useState(1);
+
+  const handleSubmit = async () => {
     setIsProcessing(true);
     // Add your submit logic here
+    try {
+      console.log("menuText:", menuText);
+      console.log("restaurantName:", restaurantName);
+      console.log("cuisine:", cuisine);
+      console.log("isPositive:", isPositive);
+  
+      const res = await fetch("/api/generate-reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          menuText,
+          restaurantName,
+          cuisine,
+          isPositive,
+          // reviewCount, // later
+        }),
+      });
+  
+      const data = await res.json();
+      console.log("API result:", data);
+      // here you'll eventually set reviews into state and show them
+    } catch (err) {
+      console.error("Error:", err);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -37,13 +71,19 @@ export function InputForm() {
         <InputGroupTextarea
           placeholder="Paste the restaurant's menu here..."
           className="min-h-[150px]"
+          value={menuText}
+          onChange={(e) => setMenuText(e.target.value)}
         />
         <InputGroupAddon align="block-end"></InputGroupAddon>
       </InputGroup>
 
       {/* Normal Input 1 */}
       <InputGroup>
-        <InputGroupInput placeholder="Enter restaurant name" />
+        <InputGroupInput 
+          placeholder="Enter restaurant name"
+          value={restaurantName}
+          onChange={(e) => setRestaurantName(e.target.value)}
+        />
         <InputGroupAddon align="inline-end">
           <InputGroupText>Name</InputGroupText>
         </InputGroupAddon>
@@ -51,7 +91,12 @@ export function InputForm() {
 
       {/* Normal Input 2 */}
       <InputGroup>
-        <InputGroupInput type="email" placeholder="Enter restaurant cuisine" />
+        <InputGroupInput
+          type="email"
+          placeholder="Enter restaurant cuisine" 
+          value={cuisine}
+          onChange={(e) => setCuisine(e.target.value)}
+        />
         <InputGroupAddon align="inline-end">
           <InputGroupText>Cuisine</InputGroupText>
         </InputGroupAddon>
