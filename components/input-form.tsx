@@ -13,7 +13,11 @@ import { Label } from "@/components/ui/label";
 import { CounterButton } from "@/components/counter-button";
 import { Button } from "@/components/ui/button";
 
-export function InputForm() {
+type InputFormProps = {
+  onReviewsGenerated: (reviews: string[]) => void;
+};
+
+export function InputForm({ onReviewsGenerated }: InputFormProps) {
   const [isPositive, setIsPositive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -42,13 +46,16 @@ export function InputForm() {
           restaurantName,
           cuisine,
           isPositive,
-          // reviewCount, // later
+          reviewCount,
         }),
       });
   
       const data = await res.json();
       console.log("API result:", data);
       // here you'll eventually set reviews into state and show them
+      if (Array.isArray(data.reviews)) {
+        onReviewsGenerated(data.reviews);
+      }
     } catch (err) {
       console.error("Error:", err);
     } finally {
@@ -123,7 +130,10 @@ export function InputForm() {
       </div>
 
       {/* Review Count Button */}
-      <CounterButton />
+      <CounterButton 
+        value={reviewCount}
+        onChange={setReviewCount}
+      />
 
       {/* Submit Button */}
       <Button

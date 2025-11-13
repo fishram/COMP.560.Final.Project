@@ -4,18 +4,22 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus } from "lucide-react";
 
-export function CounterButton() {
-  const [count, setCount] = useState(1);
+type CounterButtonProps = {
+  value: number;
+  onChange: (next: number) => void;
+};
+
+export function CounterButton({value, onChange}: CounterButtonProps) {
 
   const handleIncrement = () => {
-    if (count < 10) {
-      setCount(count + 1);
+    if (value < 10) {
+      onChange(value + 1);
     }
   };
 
   const handleDecrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
+    if (value > 1) {
+      onChange(value - 1);
     }
   };
 
@@ -27,12 +31,12 @@ export function CounterButton() {
           variant="default"
           className="h-16 text-2xl font-semibold min-w-16"
         >
-          {count}
+          {value}
         </Button>
         <div className="flex flex-col gap-1">
           <Button
             onClick={handleIncrement}
-            disabled={count >= 10}
+            disabled={value >= 10}
             variant="outline"
             size="icon-sm"
             className="h-7 w-7 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -41,7 +45,7 @@ export function CounterButton() {
           </Button>
           <Button
             onClick={handleDecrement}
-            disabled={count <= 1}
+            disabled={value <= 1}
             variant="outline"
             size="icon-sm"
             className="h-7 w-7 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
