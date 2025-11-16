@@ -12,12 +12,17 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { CounterButton } from "@/components/counter-button";
 import { Button } from "@/components/ui/button";
+import type { Review } from "@/lib/types";
 
 type InputFormProps = {
-  onReviewsGenerated: (reviews: string[]) => void;
+  onReviewsGenerated: (reviews: Review[]) => void;
+  onReviewCountChange: (count: number) => void;
 };
 
-export function InputForm({ onReviewsGenerated }: InputFormProps) {
+export function InputForm({
+  onReviewsGenerated,
+  onReviewCountChange,
+}: InputFormProps) {
   const [isPositive, setIsPositive] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -25,7 +30,7 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
   const [menuText, setMenuText] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
   const [cuisine, setCuisine] = useState("");
-  const [reviewCount, setReviewCount] = useState(1);
+  const [reviewCount, setReviewCount] = useState(3);
 
   const handleSubmit = async () => {
     setIsProcessing(true);
@@ -35,7 +40,7 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
       console.log("restaurantName:", restaurantName);
       console.log("cuisine:", cuisine);
       console.log("isPositive:", isPositive);
-  
+
       const res = await fetch("/api/generate-reviews", {
         method: "POST",
         headers: {
@@ -49,7 +54,7 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
           reviewCount,
         }),
       });
-  
+
       const data = await res.json();
       console.log("API result:", data);
       // here you'll eventually set reviews into state and show them
@@ -74,10 +79,10 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
       </p>
 
       {/* Large Textarea Input */}
-      <InputGroup>
+      <InputGroup className=" overflow-hidden">
         <InputGroupTextarea
           placeholder="Paste the restaurant's menu here..."
-          className="min-h-[150px]"
+          className="min-h-[200px] max-h-[200px] overflow-y-auto resize-none w-full break-words overflow-wrap-anywhere"
           value={menuText}
           onChange={(e) => setMenuText(e.target.value)}
         />
@@ -86,7 +91,7 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
 
       {/* Normal Input 1 */}
       <InputGroup>
-        <InputGroupInput 
+        <InputGroupInput
           placeholder="Enter restaurant name"
           value={restaurantName}
           onChange={(e) => setRestaurantName(e.target.value)}
@@ -100,7 +105,7 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
       <InputGroup>
         <InputGroupInput
           type="email"
-          placeholder="Enter restaurant cuisine" 
+          placeholder="Enter restaurant cuisine"
           value={cuisine}
           onChange={(e) => setCuisine(e.target.value)}
         />
@@ -130,9 +135,12 @@ export function InputForm({ onReviewsGenerated }: InputFormProps) {
       </div>
 
       {/* Review Count Button */}
-      <CounterButton 
+      <CounterButton
         value={reviewCount}
-        onChange={setReviewCount}
+        onChange={(count) => {
+          setReviewCount(count);
+          onReviewCountChange(count);
+        }}
       />
 
       {/* Submit Button */}
