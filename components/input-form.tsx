@@ -151,7 +151,7 @@ export function InputForm({
       >
         {isProcessing ? (
           <span className="flex items-center justify-center gap-2">
-            Processing
+            Generating 100% Real Reviews
             <svg
               className="animate-spin h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +174,7 @@ export function InputForm({
             </svg>
           </span>
         ) : (
-          "Submit"
+          "Generate Reviews"
         )}
       </Button>
     </div>
