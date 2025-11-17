@@ -15,7 +15,7 @@ export default function Page() {
   const reviewCardClassName = "p-6 border rounded-lg bg-muted/50 min-h-[150px]";
 
   return (
-    <div className="flex h-screen min-w-screen justify-center items-center gap-10 p-10">
+    <div className="flex flex-col md:flex-row min-h-screen min-w-screen justify-center items-center gap-10 p-10">
       {/* Left section - Input Form */}
       <div className={sectionClassName}>
         <InputForm
