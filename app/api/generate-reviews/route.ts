@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     Name: ${restaurantName}
     Cuisine: ${cuisine}
 
-    Return ONLY valid JSON in this exact shape (no extra keys, no explanations). Make sure!:
+    Return ONLY valid JSON in this exact shape (no extra keys, no explanations). Make sure for example if there are two reviews!:
     {
     "reviews": [
         "review 1 text",
