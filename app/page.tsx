@@ -26,7 +26,7 @@ export default function Page() {
 
       {/* Right section - Review text boxes */}
 
-      <div className={`${sectionClassName} max-h-full overflow-y-auto pr-2`}>
+      <div className={`${sectionClassName} max-h-[80vh] overflow-y-auto pr-2`}>
         {reviews.length === 0
           ? Array.from({ length: reviewCount }).map((_, index) => (
               <div key={index} className={reviewCardClassName}>
