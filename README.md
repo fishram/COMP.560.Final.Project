@@ -1,4 +1,4 @@
-# Yelyp ---> Generates Restaurant Reviews Instantly!
+# Yelyp - Generates Restaurant Reviews Instantly!
 Yelpy is a Next.js app that lets you generate fun, realistic-looking reviews for any restaurant using AI.
 
 ## Goal:
